@@ -31,7 +31,6 @@ const HomePage = () => {
     };
 
     fetchNotes();
-    setIsRateLimited(false);
   }, []);
 
   return (
