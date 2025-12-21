@@ -1,7 +1,14 @@
-import { Link } from "react-router";
-import { PlusIcon } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { PlusIcon, LogOut } from "lucide-react";
 
 const NavBar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <header className="bg-base-300 border-b border-base-content/10">
       <div className="mx-auto max-w-6xl p-4">
@@ -12,6 +19,10 @@ const NavBar = () => {
               <PlusIcon />
               <span>New Note</span>
             </Link>
+            <button onClick={handleLogout} className="btn btn-ghost hover:-translate-y-0.5">
+              <LogOut />
+              <span>Logout</span>
+            </button>
           </div>
         </div>
       </div>
