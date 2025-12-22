@@ -1,13 +1,13 @@
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { PlusIcon, LogOut } from "lucide-react";
 
 const NavBar = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("token");
+  //   navigate("/login");
+  // };
 
   return (
     <header className="bg-base-300 border-b border-base-content/10">
@@ -19,10 +19,10 @@ const NavBar = () => {
               <PlusIcon />
               <span>New Note</span>
             </Link>
-            <button onClick={handleLogout} className="btn btn-ghost hover:-translate-y-0.5">
+            {/* <button onClick={handleLogout} className="btn btn-ghost hover:-translate-y-0.5">
               <LogOut />
               <span>Logout</span>
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
