@@ -14,10 +14,12 @@ const NoteDetailPage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await api.get(`/notes/${id}`);
-        setNote(res.data);
+        const res = await api.get(`/notes/${ id }`);
+        console.log("Fetched note data: ", res.data)
+        setNote(res.data.data);
       } catch (error) {
         console.error("Error in fetching note", error);
+        // console.error("Error response: ", error.response);
         toast.error("Failed to fetch the note");
       } finally {
         setloading(false);

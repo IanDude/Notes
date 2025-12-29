@@ -1,14 +1,9 @@
 import express from "express";
-import {
-  createNote,
-  deleteNote,
-  getNoteById,
-  getAllNotes,
-  updateNote,
-} from "../controllers/notesController.js";
+import { createNote, deleteNote, getNoteById, getAllNotes, updateNote } from "../controllers/notesController.js";
 import verifyJWT from "../middleware/auth.js";
 
 const router = express.Router();
+router.use(verifyJWT);
 
 router.get("/", getAllNotes);
 router.get("/:id", getNoteById);
