@@ -18,8 +18,12 @@ const noteSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    // imageUrl: {
+    //   type: String,
+    //   default: null,
+    // },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Note = mongoose.model("Note", noteSchema);
