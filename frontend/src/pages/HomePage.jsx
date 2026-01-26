@@ -1,16 +1,17 @@
 // src/pages/HomePage.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router";
-import { PlusIcon, LogOutIcon } from "lucide-react";
+// import { PlusIcon, LogOutIcon } from "lucide-react";
 import api from "../lib/axios.js";
 import NoteCard from "../components/NoteCard.jsx";
-import { useAuth } from "../contexts/AuthContext";
+import { UseAuth } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
+import NavBar from "../components/NavBar.jsx";
 
 const HomePage = () => {
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user, logout } = useAuth();
+  // const { user, logout } = UseAuth();
 
   useEffect(() => {
     fetchNotes();
@@ -28,10 +29,10 @@ const HomePage = () => {
     }
   };
 
-  const handleLogout = () => {
-    logout();
-    toast.success("Logged out successfully");
-  };
+  // const handleLogout = () => {
+  //   logout();
+  //   toast.success("Logged out successfully");
+  // };
 
   if (loading) {
     return (
@@ -44,7 +45,7 @@ const HomePage = () => {
   return (
     <div className="container mx-auto px-4 py-8 min-h-screen">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      {/* <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-white">My Notes</h1>
           {user && <p className="text-gray-400">Welcome, {user.username}!</p>}
@@ -60,7 +61,8 @@ const HomePage = () => {
             <LogOutIcon className="size-5" />
           </button>
         </div>
-      </div>
+      </div> */}
+      <NavBar/>
 
       {/* Notes Grid */}
       {notes.length === 0 ? (
@@ -71,7 +73,7 @@ const HomePage = () => {
           </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {notes.map((note) => (
             <NoteCard key={note._id} note={note} setNotes={setNotes} />
           ))}

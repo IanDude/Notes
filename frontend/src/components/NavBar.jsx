@@ -1,30 +1,32 @@
 import { Link } from "react-router";
-import { PlusIcon, LogOut } from "lucide-react";
+import { PlusIcon, LogOutIcon } from "lucide-react";
+import { UseAuth } from "../contexts/AuthContext";
+import toast from "react-hot-toast";
 
 const NavBar = () => {
-  // const navigate = useNavigate();
+  const { user, logout } = UseAuth();
 
-  // const handleLogout = () => {
-  //   localStorage.removeItem("token");
-  //   navigate("/login");
-  // };
+  const handleLogout = () => {
+    logout();
+    toast.success("Logged Out Successfully!");
+  };
 
   return (
-    <header className="bg-base-300 border-b border-base-content/10">
-      <div className="mx-auto max-w-6xl p-4">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-primary font-mono tracking-tight">Notes</h1>
-          <div className="flex items-center gap-4">
-            <Link to="/create" className="btn btn-primary hover:-translate-y-0.5">
-              <PlusIcon />
-              <span>New Note</span>
-            </Link>
-            {/* <button onClick={handleLogout} className="btn btn-ghost hover:-translate-y-0.5">
-              <LogOut />
-              <span>Logout</span>
-            </button> */}
-          </div>
-        </div>
+    // <header className="bg-base-300 border-b border-base-content/10">
+    <header className="flex justify-between items-center mb-8">
+      <div>
+        <h1 className="text-3xl font-bold text-white">My Notes</h1>
+        {user && <p className="text-gray-400">Welcome, {user.username}!</p>}
+      </div>
+
+      <div className="flex items-center gap-4">
+        <Link to="/create" className="btn btn-primary">
+          <PlusIcon className="size-5" />
+          New Note
+        </Link>
+        <button onClick={handleLogout} className="btn btn-ghost text-white hover:text-error" title="Logout">
+          <LogOutIcon className="size-5" />
+        </button>
       </div>
     </header>
   );

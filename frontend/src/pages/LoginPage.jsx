@@ -1,18 +1,18 @@
 // src/pages/LoginPage.jsx
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useAuth } from "../contexts/AuthContext";
+import { UseAuth } from "../contexts/AuthContext";
 import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState(""); // Add for registration
+  const [username, setUsername] = useState("");
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { login, register } = useAuth();
+  const { login, register } = UseAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -148,13 +148,6 @@ export default function LoginPage() {
         <button type="button" onClick={toggleMode} className="btn btn-ghost w-full text-sm" disabled={loading}>
           {isRegister ? "Already have an account? Login" : "Need an account? Sign Up"}
         </button>
-
-        {/* Demo credentials hint */}
-        {!isRegister && (
-          <div className="mt-6 p-3 bg-base-200 rounded-lg">
-            <p className="text-sm text-center text-base-content/70">Demo: test@example.com / password123</p>
-          </div>
-        )}
       </form>
     </div>
   );
