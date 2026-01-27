@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import api from "../lib/axios";
+import api, { setAccessToken } from "../lib/axios";
 
 const AuthContext = createContext();
 
@@ -53,8 +53,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post("/auth/login", { email, password });
       if (response.data.success) {
-        const { user, token } = response.data;
-        localStorage.setItem("token", token);
+        const { user, accessToken } = response.data;
+        // localStorage.setItem("token", token);
+        setAccessToken(accessToken);
         localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
         return { success: true };
@@ -69,8 +70,9 @@ export const AuthProvider = ({ children }) => {
     try {
       const response = await api.post("/auth/register", { username, email, password });
       if (response.data.success) {
-        const { user, token } = response.data;
-        localStorage.setItem("token", token);
+        const { user, accessToken } = response.data;
+        // localStorage.setItem("token", token);
+        setAccessToken(accessToken);
         localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
         return { success: true };

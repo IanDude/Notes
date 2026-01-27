@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import path from "path";
+import cookieParser from "cookie-parser";
 
 import notesRoutes from "./routes/notesRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -14,11 +15,12 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 const __dirname = path.resolve();
 
-
+app.use(cookieParser());
 if (process.env.NODE_ENV !== "production") {
   app.use(
     cors({
       origin: process.env.FRONTEND_URL,
+      credentials: true,
     }),
   );
 }

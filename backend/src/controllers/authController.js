@@ -36,11 +36,20 @@ export async function Register(req, res) {
       username: newUser.username,
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
+    // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.status(201).json({
       success: true,
-      token,
+      accessToken,
       user: {
         id: newUser._id,
         username: newUser.username,
@@ -104,11 +113,19 @@ export async function Login(req, res) {
       email: user.email,
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
+    // const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "7d" });
+    const accessToken = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "7d" });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     res.json({
       success: true,
-      token,
+      accessToken,
       user: {
         id: user._id,
         username: user.username,
@@ -153,5 +170,19 @@ export async function getCurrentUser(req, res) {
       success: false,
       message: "Failed to retrieve user",
     });
+  }
+}
+
+export async function refreshAccessToken(req, res) {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.status(401).json({ success: false });
+
+  try {
+    const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+    const user = await User.findById(decoded.id);
+    const newAccessToken = jwt.sign({ id: user._id, username: user.username, email: user.email }, { expiresIn: "15m" });
+    res.json({ success: true, accessToken: newAccessToken });
+  } catch (error) {
+    res.status(401).json({ success: false, message: "Invalid refresh token" });
   }
 }
