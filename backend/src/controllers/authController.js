@@ -180,9 +180,26 @@ export async function refreshAccessToken(req, res) {
   try {
     const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     const user = await User.findById(decoded.id);
-    const newAccessToken = jwt.sign({ id: user._id, username: user.username, email: user.email }, { expiresIn: "15m" });
+    const newAccessToken = jwt.sign(
+      { id: user._id, username: user.username, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "15m" },
+    );
     res.json({ success: true, accessToken: newAccessToken });
   } catch (error) {
     res.status(401).json({ success: false, message: "Invalid refresh token" });
+  }
+}
+
+export async function Logout(req, res) {
+  try {
+    res.clearCookie("refreshToken", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+    res.json({ success: true, message: "Logged out successfully!" });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Error in logout controller." });
   }
 }

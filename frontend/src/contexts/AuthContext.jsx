@@ -83,10 +83,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("token");
-    setUser(null);
-    window.location.href = "/login";
+  const logout = async () => {
+    try {
+      const response = await api.post("/auth/logout");
+      if (response.data.success) {
+        setUser(null);
+        setAccessToken(null);
+        window.location.href = "/login";
+      }
+    } catch (error) {
+      console.error("Logout Failed:", error);
+      return { success: false, message: error.response?.data?.message || "Registration failed" };
+    }
   };
 
   return (
