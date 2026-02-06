@@ -6,7 +6,10 @@ This is my attempt in using the **MERN** Tech stack.
 
 It started from a _simple_ notes app that just allows you to <ins>**_Create, Read, Update & Delete_**</ins> notes.
 
-> [!MyFeatures]
+> [!Note]
+>
+> ### Features I Added
+>
 > Login and SignUp
 > Authentication and Authorization using JWTs
 
